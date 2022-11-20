@@ -65,6 +65,11 @@ class Datetime {
         this.nanosecond = jvmDatetime.nano
     }
 
+    /**
+     * Check if a datetime is after another one
+     * @param datetime the "another" datetime
+     * @return Boolean
+     */
     fun isAfter(datetime: Datetime): Boolean {
         return isBiggerThan(year, datetime.year) {
             isBiggerThan(month, datetime.month) {
@@ -83,6 +88,11 @@ class Datetime {
         }
     }
 
+    /**
+     * Check if a datetime is before another one
+     * @param datetime the "another" datetime
+     * @return Boolean
+     */
     fun isBefore(datetime: Datetime): Boolean {
         return !isAfter(datetime)
     }
