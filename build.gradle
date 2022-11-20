@@ -1,0 +1,74 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    apply from: 'manifest.gradle'
+    repositories {
+        gradlePluginPortal()
+        google()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradle_plugin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // For Kotlin projects, you need to add Dokka.
+        classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.4.30'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+        mavenCentral()
+        google()
+    }
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+subprojects {
+    tasks.withType(Javadoc).all { enabled = false }
+}
+
+ext {
+    sourceCompatibilityVersion = JavaVersion.VERSION_11
+    targetCompatibilityVersion = JavaVersion.VERSION_11
+    compileSdkVersion = 32
+    targetSdkVersion = 32
+    minSdkVersion = 26
+
+    userOrg = 'qhy040404'
+    repoName = 'maven'
+    desc = 'Datetime implementations'
+    licences = ['Apache-2.0']
+    groupId = 'com.qhy040404'
+    version = '1.0.0'
+}
+
+ext {
+    groupIdBase = "com.qhy040404.datetime"
+
+    POM_INCEPTION_YEAR = "2022"
+    POM_PACKAGING = "aar"
+
+    POM_URL = "https://github.com/qhy040404/datetime"
+    POM_SCM_URL = "https://github.com/qhy040404/datetime"
+    POM_SCM_CONNECTION = "scm:git@github.com:qhy040404/datetime.git"
+    POM_SCM_DEV_CONNECTION = "scm:git@github.com:qhy040404/datetime.git"
+
+    POM_LICENCE_NAME = "Apache-2.0"
+    POM_LICENCE_URL = "https://github.com/qhy040404/datetime/blob/master/LICENSE"
+    POM_LICENCE_DIST = "repo"
+
+    POM_DEVELOPER_ID = "qhy040404"
+    POM_DEVELOPER_NAME = "qhy040404"
+    POM_DEVELOPER_URL = "https://github.com/qhy040404"
+}

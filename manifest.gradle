@@ -1,0 +1,6 @@
+ext {
+    gradle_plugin_version = '7.3.1'
+    kotlin_version = '1.7.20'
+
+    qhy040404_datetime_version = '1.0.0'
+}
