@@ -65,6 +65,38 @@ class Datetime {
         this.nanosecond = jvmDatetime.nano
     }
 
+    fun isAfter(datetime: Datetime): Boolean {
+        return isBiggerThan(year, datetime.year) {
+            isBiggerThan(month, datetime.month) {
+                isBiggerThan(day, datetime.day) {
+                    isBiggerThan(hour, datetime.hour) {
+                        isBiggerThan(minute, datetime.minute) {
+                            isBiggerThan(second, datetime.second) {
+                                isBiggerThan(nanosecond, datetime.nanosecond) {
+                                    false
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun isBefore(datetime: Datetime): Boolean {
+        return !isAfter(datetime)
+    }
+
+    private fun isBiggerThan(a: Int, b: Int, foo: () -> Boolean): Boolean {
+        return if (a > b) {
+            true
+        } else if (a < b) {
+            false
+        } else {
+            foo()
+        }
+    }
+
     companion object {
         /**
          * Parse string to datetime
