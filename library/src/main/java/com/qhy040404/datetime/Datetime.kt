@@ -168,6 +168,8 @@ class Datetime {
             }
         }
 
+        fun now() = Datetime(jvmDateTime.now())
+
         /**
          * Convert a string into datetime
          * @return Datetime
