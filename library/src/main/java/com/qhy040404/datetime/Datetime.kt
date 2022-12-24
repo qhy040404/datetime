@@ -191,12 +191,10 @@ class Datetime {
     }
 
     private fun isBiggerThan(a: Int, b: Int, foo: () -> Boolean): Boolean {
-        return if (a > b) {
-            true
-        } else if (a < b) {
-            false
-        } else {
+        return if (a == b) {
             foo()
+        } else {
+            a > b
         }
     }
 
