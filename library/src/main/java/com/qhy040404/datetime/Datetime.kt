@@ -85,38 +85,6 @@ class Datetime : Comparable<Datetime> {
     }
 
     /**
-     * Check if a datetime is after another one
-     * @param datetime the "another" datetime
-     * @return Boolean
-     */
-    fun isAfter(datetime: Datetime): Boolean {
-        return isBiggerThan(year, datetime.year) {
-            isBiggerThan(month, datetime.month) {
-                isBiggerThan(day, datetime.day) {
-                    isBiggerThan(hour, datetime.hour) {
-                        isBiggerThan(minute, datetime.minute) {
-                            isBiggerThan(second, datetime.second) {
-                                isBiggerThan(nanosecond, datetime.nanosecond) {
-                                    false
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Check if a datetime is before another one
-     * @param datetime the "another" datetime
-     * @return Boolean
-     */
-    fun isBefore(datetime: Datetime): Boolean {
-        return !isAfter(datetime)
-    }
-
-    /**
      * Plus a part of Datetime and return a copy modified
      * @param n the number to be plus
      * @param part The part defined in DatetimePart
@@ -154,59 +122,17 @@ class Datetime : Comparable<Datetime> {
         }
     }
 
-    /**
-     * Check if this datetime is equals to another one. Check nanosecond as default
-     * @param datetime The other datetime
-     * @param includeNano Whether to check nanosecond, default true
-     * @return if they are same
-     */
-    fun equals(datetime: Datetime, includeNano: Boolean = true): Boolean {
-        return isEqual(year, datetime.year) {
-            isEqual(month, datetime.month) {
-                isEqual(day, datetime.day) {
-                    isEqual(hour, datetime.hour) {
-                        isEqual(minute, datetime.minute) {
-                            isEqual(second, datetime.second) {
-                                if (includeNano) {
-                                    isEqual(nanosecond, datetime.nanosecond) {
-                                        true
-                                    }
-                                } else {
-                                    true
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun isEqual(a: Int, b: Int, foo: () -> Boolean): Boolean {
-        return if (a == b) {
-            foo()
-        } else {
-            false
-        }
-    }
-
-    private fun isBiggerThan(a: Int, b: Int, foo: () -> Boolean): Boolean {
-        return if (a == b) {
-            foo()
-        } else {
-            a > b
-        }
-    }
+    override fun equals(other: Any?): Boolean =
+        (this === other) || (other is Datetime && this.toTimestamp() == other.toTimestamp())
 
     override fun compareTo(other: Datetime) = this.toTimestamp().compareTo(other.toTimestamp())
 
-    /**
-     * Return a time string
-     * @return yyyy-MM-ddTHH:mm:ss
-     */
     override fun toString(): String {
         return "${year}-${month}-${day}T${hour}:${minute}:${second}"
     }
+
+    override fun hashCode(): Int =
+        jvmDateTime.of(year, month, day, hour, minute, second, nanosecond).hashCode()
 
     companion object {
         /**
