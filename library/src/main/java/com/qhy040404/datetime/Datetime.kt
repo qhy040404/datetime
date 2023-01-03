@@ -9,7 +9,7 @@ import java.time.LocalDateTime as jvmDateTime
  * Datetime Class
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class Datetime {
+class Datetime : Comparable<Datetime> {
     val year: Int
     val month: Int
     val day: Int
@@ -197,6 +197,8 @@ class Datetime {
             a > b
         }
     }
+
+    override fun compareTo(other: Datetime) = this.toTimestamp().compareTo(other.toTimestamp())
 
     /**
      * Return a time string
