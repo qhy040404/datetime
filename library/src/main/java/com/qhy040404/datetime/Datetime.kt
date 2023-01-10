@@ -229,7 +229,7 @@ class Datetime : Comparable<Datetime> {
          * Convert a string to datetime
          * @return Datetime
          */
-        fun String.toDateTime() = parse(this)
+        fun String.toDatetime() = parse(this)
 
         /**
          * Convert a Instant to datetime
