@@ -208,7 +208,7 @@ class Datetime : Comparable<Datetime> {
             return jvmDateTime.ofInstant(
                 instant,
                 ZoneId.systemDefault()
-            ).toDateTime()
+            ).toDatetime()
         }
 
         /**
@@ -226,15 +226,21 @@ class Datetime : Comparable<Datetime> {
         fun now() = Datetime(jvmDateTime.now())
 
         /**
-         * Convert a string into datetime
+         * Convert a string to datetime
          * @return Datetime
          */
         fun String.toDateTime() = parse(this)
 
         /**
+         * Convert a Instant to datetime
+         * @return Datetime
+         */
+        fun Instant.toDatetime() = fromInstant(this)
+
+        /**
          * Convert a LocalDateTime to datetime
          * @return Datetime
          */
-        fun jvmDateTime.toDateTime() = Datetime(this)
+        fun jvmDateTime.toDatetime() = Datetime(this)
     }
 }
