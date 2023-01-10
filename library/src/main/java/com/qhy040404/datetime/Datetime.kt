@@ -127,6 +127,10 @@ class Datetime : Comparable<Datetime> {
 
     override fun compareTo(other: Datetime) = this.toTimestamp().compareTo(other.toTimestamp())
 
+    /**
+     * Return a time string
+     * @return yyyy-MM-ddTHH:mm:ss
+     */
     override fun toString(): String {
         return "${year}-${month}-${day}T${hour}:${minute}:${second}"
     }
