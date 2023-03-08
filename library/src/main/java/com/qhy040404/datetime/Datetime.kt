@@ -85,6 +85,23 @@ class Datetime : Comparable<Datetime> {
     }
 
     /**
+     * Plus a Datetime and return a new Datetime
+     * @param dt another Datetime
+     * @return Datetime
+     */
+    operator fun plus(dt: Datetime): Datetime {
+        return Datetime(
+            year + dt.year,
+            month + dt.month,
+            day + dt.day,
+            hour + dt.hour,
+            minute + dt.minute,
+            second + dt.second,
+            nanosecond + dt.nanosecond
+        )
+    }
+
+    /**
      * Plus a part of Datetime and return a copy modified
      * @param n the number to be plus
      * @param part The part defined in DatetimePart
@@ -101,6 +118,23 @@ class Datetime : Comparable<Datetime> {
             DatetimePart.NANOSECOND ->
                 Datetime(year, month, day, hour, minute, second, nanosecond + n)
         }
+    }
+
+    /**
+     * Minus a Datetime and return a new Datetime
+     * @param dt another Datetime
+     * @return Datetime
+     */
+    operator fun minus(dt: Datetime): Datetime {
+        return Datetime(
+            year - dt.year,
+            month - dt.month,
+            day - dt.day,
+            hour - dt.hour,
+            minute - dt.minute,
+            second - dt.second,
+            nanosecond - dt.nanosecond
+        )
     }
 
     /**
@@ -159,13 +193,15 @@ class Datetime : Comparable<Datetime> {
             if (origStr.split("T").size == 2) {
                 val date = origStr.split("T").first().split("-")
                 val time = origStr.split("T").last().trimEnd('Z').split(":")
-                return Datetime(date[0].toInt(),
+                return Datetime(
+                    date[0].toInt(),
                     date[1].toInt(),
                     date[2].toInt(),
                     time[0].toInt(),
                     time[1].toInt(),
                     time[2].toInt(),
-                    0)
+                    0
+                )
             } else {
                 val date = origStr.split(" ").first()
                 val time = origStr.split(" ").last()
@@ -181,20 +217,24 @@ class Datetime : Comparable<Datetime> {
                 val timeList = time.split(":")
 
                 return when (timeList.size) {
-                    2 -> Datetime(dateList[0].toInt(),
+                    2 -> Datetime(
+                        dateList[0].toInt(),
                         dateList[1].toInt(),
                         dateList[2].toInt(),
                         timeList[0].toInt(),
                         timeList[1].toInt(),
                         0,
-                        0)
-                    3 -> Datetime(dateList[0].toInt(),
+                        0
+                    )
+                    3 -> Datetime(
+                        dateList[0].toInt(),
                         dateList[1].toInt(),
                         dateList[2].toInt(),
                         timeList[0].toInt(),
                         timeList[1].toInt(),
                         timeList[2].toInt(),
-                        0)
+                        0
+                    )
                     else -> throw IllegalArgumentException("Illegal delimiter in time")
                 }
             }
