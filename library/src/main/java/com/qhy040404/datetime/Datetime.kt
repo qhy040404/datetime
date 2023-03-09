@@ -90,7 +90,34 @@ class Datetime : Comparable<Datetime> {
      * @return Datetime
      */
     operator fun plus(dt: Datetime): Datetime {
-        return fromTimestamp(toTimestamp() + dt.toTimestamp())
+        return Datetime(
+            year + dt.year,
+            month + dt.month,
+            day + dt.day,
+            hour + dt.hour,
+            minute + dt.minute,
+            second + dt.second,
+            nanosecond + dt.nanosecond
+        )
+    }
+
+    /**
+     * Plus a part of Datetime and return a copy modified
+     * @param n the number to be plus
+     * @param part The part defined in DatetimePart
+     * @return Datetime
+     */
+    fun plus(n: Int, part: DatetimePart): Datetime {
+        return when (part) {
+            DatetimePart.YEAR -> Datetime(year + n, month, day, hour, minute, second, nanosecond)
+            DatetimePart.MONTH -> Datetime(year, month + n, day, hour, minute, second, nanosecond)
+            DatetimePart.DAY -> Datetime(year, month, day + n, hour, minute, second, nanosecond)
+            DatetimePart.HOUR -> Datetime(year, month, day, hour + n, minute, second, nanosecond)
+            DatetimePart.MINUTE -> Datetime(year, month, day, hour, minute + n, second, nanosecond)
+            DatetimePart.SECOND -> Datetime(year, month, day, hour, minute, second + n, nanosecond)
+            DatetimePart.NANOSECOND ->
+                Datetime(year, month, day, hour, minute, second, nanosecond + n)
+        }
     }
 
     /**
@@ -99,7 +126,34 @@ class Datetime : Comparable<Datetime> {
      * @return Datetime
      */
     operator fun minus(dt: Datetime): Datetime {
-        return fromTimestamp(toTimestamp() - dt.toTimestamp())
+        return Datetime(
+            year - dt.year,
+            month - dt.month,
+            day - dt.day,
+            hour - dt.hour,
+            minute - dt.minute,
+            second - dt.second,
+            nanosecond - dt.nanosecond
+        )
+    }
+
+    /**
+     * Minus a part of Datetime and return a copy modified
+     * @param n the number to be minus
+     * @param part The part defined in DatetimePart
+     * @return Datetime
+     */
+    fun minus(n: Int, part: DatetimePart): Datetime {
+        return when (part) {
+            DatetimePart.YEAR -> Datetime(year - n, month, day, hour, minute, second, nanosecond)
+            DatetimePart.MONTH -> Datetime(year, month - n, day, hour, minute, second, nanosecond)
+            DatetimePart.DAY -> Datetime(year, month, day - n, hour, minute, second, nanosecond)
+            DatetimePart.HOUR -> Datetime(year, month, day, hour - n, minute, second, nanosecond)
+            DatetimePart.MINUTE -> Datetime(year, month, day, hour, minute - n, second, nanosecond)
+            DatetimePart.SECOND -> Datetime(year, month, day, hour, minute, second - n, nanosecond)
+            DatetimePart.NANOSECOND ->
+                Datetime(year, month, day, hour, minute, second, nanosecond - n)
+        }
     }
 
     override fun equals(other: Any?): Boolean =
