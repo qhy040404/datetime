@@ -84,21 +84,8 @@ class Datetime : Comparable<Datetime> {
         return toInstant().toEpochMilli()
     }
 
-    /**
-     * Plus a Datetime and return a new Datetime
-     * @param dt another Datetime
-     * @return Datetime
-     */
-    operator fun plus(dt: Datetime): Datetime {
-        return Datetime(
-            year + dt.year,
-            month + dt.month,
-            day + dt.day,
-            hour + dt.hour,
-            minute + dt.minute,
-            second + dt.second,
-            nanosecond + dt.nanosecond
-        )
+    private fun toJvmDatetime(): jvmDateTime {
+        return jvmDateTime.of(year, month, day, hour, minute, second, nanosecond)
     }
 
     /**
@@ -109,32 +96,14 @@ class Datetime : Comparable<Datetime> {
      */
     fun plus(n: Int, part: DatetimePart): Datetime {
         return when (part) {
-            DatetimePart.YEAR -> Datetime(year + n, month, day, hour, minute, second, nanosecond)
-            DatetimePart.MONTH -> Datetime(year, month + n, day, hour, minute, second, nanosecond)
-            DatetimePart.DAY -> Datetime(year, month, day + n, hour, minute, second, nanosecond)
-            DatetimePart.HOUR -> Datetime(year, month, day, hour + n, minute, second, nanosecond)
-            DatetimePart.MINUTE -> Datetime(year, month, day, hour, minute + n, second, nanosecond)
-            DatetimePart.SECOND -> Datetime(year, month, day, hour, minute, second + n, nanosecond)
-            DatetimePart.NANOSECOND ->
-                Datetime(year, month, day, hour, minute, second, nanosecond + n)
+            DatetimePart.YEAR -> toJvmDatetime().plusYears(n.toLong()).toDatetime()
+            DatetimePart.MONTH -> toJvmDatetime().plusMonths(n.toLong()).toDatetime()
+            DatetimePart.DAY -> toJvmDatetime().plusDays(n.toLong()).toDatetime()
+            DatetimePart.HOUR -> toJvmDatetime().plusHours(n.toLong()).toDatetime()
+            DatetimePart.MINUTE -> toJvmDatetime().plusMinutes(n.toLong()).toDatetime()
+            DatetimePart.SECOND -> toJvmDatetime().plusSeconds(n.toLong()).toDatetime()
+            DatetimePart.NANOSECOND -> toJvmDatetime().plusNanos(n.toLong()).toDatetime()
         }
-    }
-
-    /**
-     * Minus a Datetime and return a new Datetime
-     * @param dt another Datetime
-     * @return Datetime
-     */
-    operator fun minus(dt: Datetime): Datetime {
-        return Datetime(
-            year - dt.year,
-            month - dt.month,
-            day - dt.day,
-            hour - dt.hour,
-            minute - dt.minute,
-            second - dt.second,
-            nanosecond - dt.nanosecond
-        )
     }
 
     /**
@@ -145,14 +114,13 @@ class Datetime : Comparable<Datetime> {
      */
     fun minus(n: Int, part: DatetimePart): Datetime {
         return when (part) {
-            DatetimePart.YEAR -> Datetime(year - n, month, day, hour, minute, second, nanosecond)
-            DatetimePart.MONTH -> Datetime(year, month - n, day, hour, minute, second, nanosecond)
-            DatetimePart.DAY -> Datetime(year, month, day - n, hour, minute, second, nanosecond)
-            DatetimePart.HOUR -> Datetime(year, month, day, hour - n, minute, second, nanosecond)
-            DatetimePart.MINUTE -> Datetime(year, month, day, hour, minute - n, second, nanosecond)
-            DatetimePart.SECOND -> Datetime(year, month, day, hour, minute, second - n, nanosecond)
-            DatetimePart.NANOSECOND ->
-                Datetime(year, month, day, hour, minute, second, nanosecond - n)
+            DatetimePart.YEAR -> toJvmDatetime().minusYears(n.toLong()).toDatetime()
+            DatetimePart.MONTH -> toJvmDatetime().minusMonths(n.toLong()).toDatetime()
+            DatetimePart.DAY -> toJvmDatetime().minusDays(n.toLong()).toDatetime()
+            DatetimePart.HOUR -> toJvmDatetime().minusHours(n.toLong()).toDatetime()
+            DatetimePart.MINUTE -> toJvmDatetime().minusMinutes(n.toLong()).toDatetime()
+            DatetimePart.SECOND -> toJvmDatetime().minusSeconds(n.toLong()).toDatetime()
+            DatetimePart.NANOSECOND -> toJvmDatetime().minusNanos(n.toLong()).toDatetime()
         }
     }
 
