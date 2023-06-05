@@ -39,8 +39,8 @@ subprojects {
 }
 
 ext {
-    sourceCompatibilityVersion = JavaVersion.VERSION_11
-    targetCompatibilityVersion = JavaVersion.VERSION_11
+    sourceCompatibilityVersion = JavaVersion.VERSION_17
+    targetCompatibilityVersion = JavaVersion.VERSION_17
     compileSdkVersion = 33
     targetSdkVersion = 33
     minSdkVersion = 26
@@ -50,7 +50,7 @@ ext {
     desc = 'Datetime implementations'
     licences = ['Apache-2.0']
     groupId = 'com.qhy040404'
-    version = '1.3.4'
+    version = '1.3.5'
 }
 
 ext {
