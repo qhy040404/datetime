@@ -2,8 +2,8 @@ package com.qhy040404.datetime
 
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.LocalDateTime as jvmDateTime
 
 /**
  * Datetime Class
@@ -57,14 +57,14 @@ class Datetime : Comparable<Datetime> {
         this.nanosecond = 0
     }
 
-    constructor(jvmDatetime: jvmDateTime) {
-        this.year = jvmDatetime.year
-        this.month = jvmDatetime.monthValue
-        this.day = jvmDatetime.dayOfMonth
-        this.hour = jvmDatetime.hour
-        this.minute = jvmDatetime.minute
-        this.second = jvmDatetime.second
-        this.nanosecond = jvmDatetime.nano
+    constructor(localDateTime: LocalDateTime) {
+        this.year = localDateTime.year
+        this.month = localDateTime.monthValue
+        this.day = localDateTime.dayOfMonth
+        this.hour = localDateTime.hour
+        this.minute = localDateTime.minute
+        this.second = localDateTime.second
+        this.nanosecond = localDateTime.nano
     }
 
     /**
@@ -72,7 +72,7 @@ class Datetime : Comparable<Datetime> {
      * @return Instant
      */
     fun toInstant(): Instant {
-        return jvmDateTime.of(year, month, day, hour, minute, second, nanosecond)
+        return LocalDateTime.of(year, month, day, hour, minute, second, nanosecond)
             .atZone(ZoneId.systemDefault()).toInstant()
     }
 
@@ -84,8 +84,8 @@ class Datetime : Comparable<Datetime> {
         return toInstant().toEpochMilli()
     }
 
-    private fun toJvmDatetime(): jvmDateTime {
-        return jvmDateTime.of(year, month, day, hour, minute, second, nanosecond)
+    private fun toLocalDateTime(): LocalDateTime {
+        return LocalDateTime.of(year, month, day, hour, minute, second, nanosecond)
     }
 
     /**
@@ -96,13 +96,13 @@ class Datetime : Comparable<Datetime> {
      */
     fun plus(n: Int, part: DatetimePart): Datetime {
         return when (part) {
-            DatetimePart.YEAR -> toJvmDatetime().plusYears(n.toLong()).toDatetime()
-            DatetimePart.MONTH -> toJvmDatetime().plusMonths(n.toLong()).toDatetime()
-            DatetimePart.DAY -> toJvmDatetime().plusDays(n.toLong()).toDatetime()
-            DatetimePart.HOUR -> toJvmDatetime().plusHours(n.toLong()).toDatetime()
-            DatetimePart.MINUTE -> toJvmDatetime().plusMinutes(n.toLong()).toDatetime()
-            DatetimePart.SECOND -> toJvmDatetime().plusSeconds(n.toLong()).toDatetime()
-            DatetimePart.NANOSECOND -> toJvmDatetime().plusNanos(n.toLong()).toDatetime()
+            DatetimePart.YEAR -> toLocalDateTime().plusYears(n.toLong()).toDatetime()
+            DatetimePart.MONTH -> toLocalDateTime().plusMonths(n.toLong()).toDatetime()
+            DatetimePart.DAY -> toLocalDateTime().plusDays(n.toLong()).toDatetime()
+            DatetimePart.HOUR -> toLocalDateTime().plusHours(n.toLong()).toDatetime()
+            DatetimePart.MINUTE -> toLocalDateTime().plusMinutes(n.toLong()).toDatetime()
+            DatetimePart.SECOND -> toLocalDateTime().plusSeconds(n.toLong()).toDatetime()
+            DatetimePart.NANOSECOND -> toLocalDateTime().plusNanos(n.toLong()).toDatetime()
         }
     }
 
@@ -114,13 +114,13 @@ class Datetime : Comparable<Datetime> {
      */
     fun minus(n: Int, part: DatetimePart): Datetime {
         return when (part) {
-            DatetimePart.YEAR -> toJvmDatetime().minusYears(n.toLong()).toDatetime()
-            DatetimePart.MONTH -> toJvmDatetime().minusMonths(n.toLong()).toDatetime()
-            DatetimePart.DAY -> toJvmDatetime().minusDays(n.toLong()).toDatetime()
-            DatetimePart.HOUR -> toJvmDatetime().minusHours(n.toLong()).toDatetime()
-            DatetimePart.MINUTE -> toJvmDatetime().minusMinutes(n.toLong()).toDatetime()
-            DatetimePart.SECOND -> toJvmDatetime().minusSeconds(n.toLong()).toDatetime()
-            DatetimePart.NANOSECOND -> toJvmDatetime().minusNanos(n.toLong()).toDatetime()
+            DatetimePart.YEAR -> toLocalDateTime().minusYears(n.toLong()).toDatetime()
+            DatetimePart.MONTH -> toLocalDateTime().minusMonths(n.toLong()).toDatetime()
+            DatetimePart.DAY -> toLocalDateTime().minusDays(n.toLong()).toDatetime()
+            DatetimePart.HOUR -> toLocalDateTime().minusHours(n.toLong()).toDatetime()
+            DatetimePart.MINUTE -> toLocalDateTime().minusMinutes(n.toLong()).toDatetime()
+            DatetimePart.SECOND -> toLocalDateTime().minusSeconds(n.toLong()).toDatetime()
+            DatetimePart.NANOSECOND -> toLocalDateTime().minusNanos(n.toLong()).toDatetime()
         }
     }
 
@@ -134,11 +134,19 @@ class Datetime : Comparable<Datetime> {
      * @return yyyy-MM-ddTHH:mm:ss
      */
     override fun toString(): String {
-        return "${year}-${month}-${day}T${hour}:${minute}:${second}"
+        return "${year.one2two()}-${month.one2two()}-${day.one2two()}T${hour.one2two()}:${minute.one2two()}:${second.one2two()}"
+    }
+
+    private fun Int.one2two(): String {
+        return if (this < 10) {
+            "0$this"
+        } else {
+            "$this"
+        }
     }
 
     override fun hashCode(): Int =
-        jvmDateTime.of(year, month, day, hour, minute, second, nanosecond).hashCode()
+        LocalDateTime.of(year, month, day, hour, minute, second, nanosecond).hashCode()
 
     companion object {
         /**
@@ -194,6 +202,7 @@ class Datetime : Comparable<Datetime> {
                         0,
                         0
                     )
+
                     3 -> Datetime(
                         dateList[0].toInt(),
                         dateList[1].toInt(),
@@ -203,6 +212,7 @@ class Datetime : Comparable<Datetime> {
                         timeList[2].toInt(),
                         0
                     )
+
                     else -> throw IllegalArgumentException("Illegal delimiter in time")
                 }
             }
@@ -213,7 +223,7 @@ class Datetime : Comparable<Datetime> {
          * @return Datetime
          */
         fun fromInstant(instant: Instant): Datetime {
-            return jvmDateTime.ofInstant(
+            return LocalDateTime.ofInstant(
                 instant,
                 ZoneId.systemDefault()
             ).toDatetime()
@@ -231,7 +241,7 @@ class Datetime : Comparable<Datetime> {
          * Get a datetime of now
          * @return Datetime
          */
-        fun now() = Datetime(jvmDateTime.now())
+        fun now() = Datetime(LocalDateTime.now())
 
         /**
          * Convert a string to datetime
@@ -249,6 +259,6 @@ class Datetime : Comparable<Datetime> {
          * Convert a LocalDateTime to datetime
          * @return Datetime
          */
-        fun jvmDateTime.toDatetime() = Datetime(this)
+        fun LocalDateTime.toDatetime() = Datetime(this)
     }
 }
