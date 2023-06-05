@@ -138,10 +138,10 @@ class Datetime : Comparable<Datetime> {
     }
 
     private fun Int.one2two(): String {
-        return if (this < 10) {
-            "0$this"
-        } else {
+        return if (this >= 10) {
             "$this"
+        } else {
+            "0$this"
         }
     }
 
