@@ -1,5 +1,5 @@
 ext {
-    gradle_plugin_version = '8.1.1'
+    gradle_plugin_version = '8.2.0'
     kotlin_version = '1.9.20'
 
     qhy040404_datetime_version = '1.3.8'
